@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Escreva e salve suas anotações no EscrevaJá.">
+    <title>Minhas notas - EscrevaJá</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <h1>EscrevaJá</h1>
+        <h4>Minha área de escrita</h4>
+    </header>
+
+    <nav class="menu">
+        <a href="home.html">Início</a>
+        <a href="projeto.html" aria-current="page">Minhas notas</a>
+        <a href="contato.html">Contato</a>
+    </nav>
+
+    <main class="notes-content">
+
+        <section class="editor">
+
+            <h2>Minha nota 1</h2>
+
+            <p class="editor-description">
+                Escreva suas ideias livremente.
+                Seu texto será salvo automaticamente.
+            </p>
+
+            <div class="save-status" id="saveStatus" role="status" aria-live="polite">
+                <span class="status-dot"></span>
+                Carregando sua anotação...
+            </div>
+
+            <label for="nota" class="editor-label">
+                Seu texto:
+            </label>
+
+            <textarea
+                id="nota"
+                placeholder="Comece a escrever aqui..."
+                spellcheck="true"
+                aria-describedby="saveStatus counters"
+            ></textarea>
+
+            <div class="counters" id="counters">
+                <span id="wordCount">0 palavras</span>
+                <span id="charCount">0 caracteres</span>
+            </div>
+
+            <div class="editor-buttons">
+
+                <button type="button" id="downloadButton" class="button">
+                    Baixar anotação
+                </button>
+
+                <button type="button" id="clearButton" class="button button-danger">
+                    Limpar anotação
+                </button>
+
+            </div>
+
+            <p class="privacy-message">
+                Suas anotações ficam salvas somente neste navegador.
+                Evite limpar os dados do navegador se quiser preservá-las.
+            </p>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p class="copyright">
+            &copy; 2026 EscrevaJá - Todos os direitos reservados.
+        </p>
+    </footer>
+
+    <script>
+        const campo = document.getElementById("nota");
+        const saveStatus = document.getElementById("saveStatus");
+        const wordCount = document.getElementById("wordCount");
+        const charCount = document.getElementById("charCount");
+        const clearButton = document.getElementById("clearButton");
+        const downloadButton = document.getElementById("downloadButton");
+
+        const STORAGE_KEY = "textoSalvo";
+
+        function atualizarContadores() {
+            const texto = campo.value.trim();
+
+            const palavras = texto
+                ? texto.split(/\s+/).length
+                : 0;
+
+            wordCount.textContent =
+                palavras + (palavras === 1 ? " palavra" : " palavras");
+
+            charCount.textContent =
+                campo.value.length +
+                (campo.value.length === 1 ? " caractere" : " caracteres");
+        }
+
+        function atualizarStatus(mensagem, estado) {
+            saveStatus.textContent = mensagem;
+            saveStatus.className = "save-status " + estado;
+
+            const ponto = document.createElement("span");
+            ponto.className = "status-dot";
+            saveStatus.prepend(ponto);
+        }
+
+        function carregarNota() {
+            try {
+                campo.value = localStorage.getItem(STORAGE_KEY) || "";
+                atualizarContadores();
+                atualizarStatus("Anotação carregada.", "saved");
+            } catch (erro) {
+                atualizarStatus(
+                    "Não foi possível acessar o armazenamento.",
+                    "error"
+                );
+            }
+        }
+
+        function salvarNota() {
+            try {
+                localStorage.setItem(STORAGE_KEY, campo.value);
+
+                atualizarStatus("Anotação salva automaticamente.", "saved");
+                atualizarContadores();
+            } catch (erro) {
+                atualizarStatus(
+                    "Erro ao salvar. Verifique o armazenamento do navegador.",
+                    "error"
+                );
+            }
+        }
+
+        campo.addEventListener("input", () => {
+            salvarNota();
+        });
+
+        clearButton.addEventListener("click", () => {
+            if (!campo.value) {
+                alert("Sua anotação já está vazia.");
+                return;
+            }
+
+            const confirmar = confirm(
+                "Tem certeza de que deseja apagar toda a anotação?"
+            );
+
+            if (confirmar) {
+                campo.value = "";
+                salvarNota();
+                atualizarStatus("Anotação apagada.", "saved");
+            }
+        });
+
+        downloadButton.addEventListener("click", () => {
+            if (!campo.value.trim()) {
+                alert("Não existe texto para baixar.");
+                return;
+            }
+
+            const arquivo = new Blob(
+                [campo.value],
+                { type: "text/plain;charset=utf-8" }
+            );
+
+            const url = URL.createObjectURL(arquivo);
+            const link = document.createElement("a");
+
+            link.href = url;
+            link.download = "minha-anotacao.txt";
+
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+
+            URL.revokeObjectURL(url);
+        });
+
+        carregarNota();
+    </script>
+
+</body>
+</html>
