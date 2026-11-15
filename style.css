@@ -1,8 +1,4 @@
 
-/* =====================================
-   ESTILO ORIGINAL - ESCREVAJÁ
-   Com correções e compatibilidade
-===================================== */
 
 h1 {
     text-align: center;
@@ -51,9 +47,7 @@ body {
     align-items: center;
 }
 
-/* =====================================
-   LINKS E BOTÕES
-===================================== */
+
 
 a {
     color: #a9a8be;
@@ -77,9 +71,6 @@ button:hover {
     background-color: #65527d;
 }
 
-/* =====================================
-   ÁREA DE ANOTAÇÕES
-===================================== */
 
 #nota {
     width: 90%;
@@ -99,9 +90,6 @@ button:hover {
     outline: 1px solid #a9a8be;
 }
 
-/* =====================================
-   STATUS E CONTADORES
-===================================== */
 
 .save-status {
     color: #a9a8be;
@@ -144,9 +132,6 @@ button:hover {
     text-align: center;
 }
 
-/* =====================================
-   FORMULÁRIO DE CONTATO
-===================================== */
 
 .contact-box {
     max-width: 700px;
@@ -190,9 +175,7 @@ button:hover {
     margin-top: 15px;
 }
 
-/* =====================================
-   NAVEGAÇÃO
-===================================== */
+
 
 .menu {
     text-align: center;
@@ -205,9 +188,6 @@ button:hover {
     color: #a9a8be;
 }
 
-/* =====================================
-   RESPONSIVIDADE
-===================================== */
 
 @media (max-width: 600px) {
     body {
