@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Entre em contato com o EscrevaJá.">
+    <title>Contato - EscrevaJá</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <h1>EscrevaJá</h1>
+        <h4>Entre em contato conosco</h4>
+    </header>
+
+    <nav class="menu">
+        <a href="home.html">Início</a>
+        <a href="projeto.html">Minhas notas</a>
+        <a href="contato.html" aria-current="page">Contato</a>
+    </nav>
+
+    <main class="contact-content">
+
+        <section class="contact-box">
+
+            <h2>Fale conosco</h2>
+
+            <p>
+                Tem alguma sugestão, dúvida ou ideia para compartilhar?
+                Preencha o formulário abaixo.
+            </p>
+
+            <form id="contactForm">
+
+                <label for="nome">Nome completo</label>
+                <input
+                    type="text"
+                    id="nome"
+                    name="nome"
+                    placeholder="Digite seu nome"
+                    required
+                    maxlength="100"
+                >
+
+                <label for="email">E-mail</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="seuemail@email.com"
+                    required
+                >
+
+                <label for="telefone">Telefone</label>
+                <input
+                    type="tel"
+                    id="telefone"
+                    name="telefone"
+                    placeholder="(00) 00000-0000"
+                >
+
+                <label for="mensagem">Sua mensagem</label>
+                <textarea
+                    id="mensagem"
+                    name="mensagem"
+                    placeholder="Escreva sua mensagem..."
+                    rows="7"
+                    required
+                    maxlength="2000"
+                ></textarea>
+
+                <button type="submit" class="button">
+                    Preparar e-mail
+                </button>
+
+            </form>
+
+            <p class="contact-notice">
+                Ao clicar no botão, seu aplicativo de e-mail será aberto
+                com a mensagem preenchida. O envio depende do seu aplicativo.
+            </p>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p class="copyright">
+            &copy; 2026 EscrevaJá - Todos os direitos reservados.
+        </p>
+    </footer>
+
+    <script>
+        const contactForm = document.getElementById("contactForm");
+
+        contactForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            if (!contactForm.reportValidity()) {
+                return;
+            }
+
+            const nome = document.getElementById("nome").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const telefone = document.getElementById("telefone").value.trim();
+            const mensagem = document.getElementById("mensagem").value.trim();
+
+            const assunto = "Contato pelo site EscrevaJá";
+
+            const corpo =
+                "Nome: " + nome + "\n" +
+                "E-mail: " + email + "\n" +
+                "Telefone: " + (telefone || "Não informado") + "\n\n" +
+                "Mensagem:\n" + mensagem;
+
+            const link =
+                "mailto:?subject=" + encodeURIComponent(assunto) +
+                "&body=" + encodeURIComponent(corpo);
+
+            window.location.href = link;
+        });
+    </script>
+
+</body>
+</html>
